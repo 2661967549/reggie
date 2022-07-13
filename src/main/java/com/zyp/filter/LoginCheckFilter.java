@@ -31,12 +31,12 @@ public class LoginCheckFilter implements Filter {
 
         //0.不需要拦截的请求
         String[] urls = new String[]{
-                "/aip/employee/login",
-                "/aip/employee/logout",
+                "/employee/login",
+                "/employee/logout",
                 "/backend/**",
                 "/front/**",
-                "/aip/user/sendMsg",
-                "/aip/user/login"
+                "/user/sendMsg",
+                "/user/login"
         };
 
         //1.获取本次请求URI
