@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/aip/category")
+@RequestMapping("/category")
 public class CategoryController {
 
     @Autowired

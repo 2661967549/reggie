@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 @RestController
-@RequestMapping("/aip/order")
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired

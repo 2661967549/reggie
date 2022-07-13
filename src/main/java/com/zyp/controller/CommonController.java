@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/aip/common")
+@RequestMapping("/common")
 @Slf4j
 public class CommonController {
 

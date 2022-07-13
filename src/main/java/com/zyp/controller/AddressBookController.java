@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/aip/addressBook")
+@RequestMapping("/addressBook")
 public class AddressBookController {
 
     @Autowired

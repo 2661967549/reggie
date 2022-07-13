@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/aip/dish")
+@RequestMapping("/dish")
 @Slf4j
 public class DishController {
 

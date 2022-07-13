@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @RestController
-@RequestMapping("/aip/employee")
+@RequestMapping("/employee")
 public class EmployeeController {
 
     @Autowired

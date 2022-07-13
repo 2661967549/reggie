@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/aip/orderDetail")
+@RequestMapping("/orderDetail")
 public class OrderDetailController {
 
     @Autowired

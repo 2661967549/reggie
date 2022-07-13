@@ -26,7 +26,7 @@ import java.util.List;
  * 套餐管理
  */
 @RestController
-@RequestMapping("/aip/setmeal")
+@RequestMapping("/setmeal")
 @Slf4j          // http://localhost:8080/setmeal/list?categoryId=1413386191767674881&status=1
 public class SetmealController {
 

@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/aip/user")
+@RequestMapping("/user")
 @Slf4j
 public class UserController {
 
