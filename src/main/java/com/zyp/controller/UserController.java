@@ -88,15 +88,24 @@ public class UserController {
                 user.setStatus(1);
                 userService.save(user);
             }
+
+            // 将用户id存入session中
             session.setAttribute("user",user.getId());
 
             //登录成功，删除redis中的验证码缓存
-            redisTemplate.delete(phone);            //v1.0新增
+            redisTemplate.delete(phone);
 
             return R.success(user);
         }
         return R.error("登录失败");
     }
+
+    @PostMapping("/loginout")
+    public R<String> loginout(HttpServletRequest request){
+        request.getSession().removeAttribute("user");
+        return R.success("cg");
+    }
+
 }
 
 
