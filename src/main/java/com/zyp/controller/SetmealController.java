@@ -1,6 +1,7 @@
 package com.zyp.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyp.common.R;
 import com.zyp.dto.SetmealDto;
@@ -40,10 +41,17 @@ public class SetmealController {
     CategoryService categoryService;
 
     @GetMapping("/dish/{id}")
-    public R<Setmeal> getDish(@PathVariable long id){
+    public R<SetmealDto> getDish(@PathVariable long id){
         log.info("-------来了一次套餐查看请求-------id："+id);
-        Setmeal setmeal = setmealService.getById(id);
-        return R.success(setmeal);
+        SetmealDto setmealDto = (SetmealDto) setmealService.getById(id);
+
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SetmealDish::getSetmealId, id);
+        List<SetmealDish> setmealDishes = setmealDishService.list(queryWrapper);
+
+        setmealDto.setSetmealDishes(setmealDishes);
+
+        return R.success(setmealDto);
     }
 
     @GetMapping("/list")
