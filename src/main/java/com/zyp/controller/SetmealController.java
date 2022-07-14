@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/setmeal")
-@Slf4j          // http://localhost:8080/setmeal/list?categoryId=1413386191767674881&status=1
+@Slf4j          //   http://192.168.16.141:81/aip/setmeal/dish/1415580119015145474
 public class SetmealController {
 
     @Autowired
@@ -38,6 +38,13 @@ public class SetmealController {
 
     @Autowired
     CategoryService categoryService;
+
+    @GetMapping("/dish/{id}")
+    public R<Setmeal> getDish(@PathVariable long id){
+        log.info("-------来了一次套餐查看请求-------id："+id);
+        Setmeal setmeal = setmealService.getById(id);
+        return R.success(setmeal);
+    }
 
     @GetMapping("/list")
     @Cacheable(value = "userCategorySetmeal",key = "#categoryId")
