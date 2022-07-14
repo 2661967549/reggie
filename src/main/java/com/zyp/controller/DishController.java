@@ -41,7 +41,7 @@ public class DishController {
 
 
     @PostMapping
-    @CacheEvict(value = "userCategoryDish", key = "#dishDto.getCategoryId()")
+    @CacheEvict(value = "userCategoryDish", allEntries = true)
     public R<String> save(@RequestBody DishDto dishDto){
         dishService.saveWithFlavor(dishDto);
 
@@ -136,7 +136,7 @@ public class DishController {
     }
 
     @PutMapping
-    @CacheEvict(value = "userCategoryDish", key = "#dishDto.getCategoryId()")
+    @CacheEvict(value = "userCategoryDish", allEntries = true)
     public R<String> update(@RequestBody DishDto dishDto){
         dishService.updateWithFlavor(dishDto);
 

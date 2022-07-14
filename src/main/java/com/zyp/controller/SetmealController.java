@@ -1,11 +1,11 @@
 package com.zyp.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyp.common.R;
 import com.zyp.dto.SetmealDto;
 import com.zyp.entity.Category;
+import com.zyp.entity.Dish;
 import com.zyp.entity.Setmeal;
 import com.zyp.entity.SetmealDish;
 import com.zyp.service.CategoryService;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/setmeal")
-@Slf4j          //   http://192.168.16.141:81/aip/setmeal/dish/1415580119015145474
+@Slf4j
 public class SetmealController {
 
     @Autowired
@@ -41,19 +41,11 @@ public class SetmealController {
     CategoryService categoryService;
 
     @GetMapping("/dish/{id}")
-    public R<SetmealDto> getDish(@PathVariable long id){
+    @Cacheable(value = "userCategoryDish",key = "#id")
+    public R<List<Dish>> getDishListBySetmealId(@PathVariable long id){
         log.info("-------来了一次套餐查看请求-------id："+id);
-        Setmeal setmeal =  setmealService.getById(id);
-        SetmealDto setmealDto = new SetmealDto();
-        BeanUtils.copyProperties(setmeal,setmealDto);
-
-        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SetmealDish::getSetmealId, id);
-        List<SetmealDish> setmealDishes = setmealDishService.list(queryWrapper);
-
-        setmealDto.setSetmealDishes(setmealDishes);
-
-        return R.success(setmealDto);
+        List<Dish> dishListBySetmealId = setmealDishService.getDishListBySetmealId(id);
+        return R.success(dishListBySetmealId);
     }
 
     @GetMapping("/list")
