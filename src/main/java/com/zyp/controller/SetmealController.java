@@ -43,7 +43,9 @@ public class SetmealController {
     @GetMapping("/dish/{id}")
     public R<SetmealDto> getDish(@PathVariable long id){
         log.info("-------来了一次套餐查看请求-------id："+id);
-        SetmealDto setmealDto = (SetmealDto) setmealService.getById(id);
+        Setmeal setmeal =  setmealService.getById(id);
+        SetmealDto setmealDto = new SetmealDto();
+        BeanUtils.copyProperties(setmeal,setmealDto);
 
         LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SetmealDish::getSetmealId, id);
