@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan("com.zyp.filter")
 @EnableTransactionManagement // 开启声明式事务支持
 @EnableCaching
-public class ReggieProject01Application {
+public class DCProject02Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(ReggieProject01Application.class, args);
+        SpringApplication.run(DCProject02Application.class, args);
         log.info("项目启动成功....");
     }
 
