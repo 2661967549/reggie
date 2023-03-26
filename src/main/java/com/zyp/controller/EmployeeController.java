@@ -100,13 +100,13 @@ public class EmployeeController {
         }
 
         if (BaseContext.getCurrentId() == 1L){ //admin用户直接修改密码
-            if (dto.getNewPassword1() != null) {
+            if (dto.getNewPassword1() != null && dto.getNewPassword1().length() > 5) {
                 String password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
                 employee.setPassword(password);
                 employeeService.updateById(employee);
                 return R.success("修改成功");
             }else {
-                return R.error("用户错误");
+                return R.error("请输入至少6位数的密码");
             }
         }
 
