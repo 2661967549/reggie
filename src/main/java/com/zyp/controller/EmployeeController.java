@@ -119,7 +119,7 @@ public class EmployeeController {
                 }
                 employee.setPassword(password);
                 employeeService.updateById(employee);
-                return R.error("修改成功");
+                return R.success("修改成功");
             }else {
                 return R.error("密码至少6位");
             }
