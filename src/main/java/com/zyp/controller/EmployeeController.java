@@ -88,7 +88,7 @@ public class EmployeeController {
     }
 
     /**
-     * 新增员工
+     * 修改密码
      * @param dto
      * @return
      */
@@ -103,7 +103,7 @@ public class EmployeeController {
             if (dto.getNewPassword1() != null) {
                 String password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
                 employee.setPassword(password);
-                employeeService.save(employee);
+                employeeService.updateById(employee);
                 return R.success("修改成功");
             }else {
                 return R.error("用户错误");
@@ -117,7 +117,7 @@ public class EmployeeController {
                     return R.error("旧密码错误,修改失败");
                 }
                 employee.setPassword(password);
-                employeeService.save(employee);
+                employeeService.updateById(employee);
                 return R.error("修改成功");
             }else {
                 return R.error("密码至少6位");
