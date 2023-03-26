@@ -95,13 +95,14 @@ public class EmployeeController {
     @PostMapping("/updatePassword")
     public R<String> updatePassword(HttpServletRequest request, @RequestBody UpdatePasswordDto dto){
         Employee employee = employeeService.getById(Long.valueOf(dto.getId()));
+        String password = null;
         if (employee == null){
             return R.error("用户名不存在，修改失败");
         }
 
         if (BaseContext.getCurrentId() == 1L){ //admin用户直接修改密码
             if (dto.getNewPassword1() != null && dto.getNewPassword1().length() > 5) {
-                String password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
+                password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
                 employee.setPassword(password);
                 employeeService.updateById(employee);
                 return R.success("修改成功");
@@ -112,8 +113,8 @@ public class EmployeeController {
 
         if (dto.getNewPassword1() != null && dto.getNewPassword1().equals(dto.getNewPassword2())){
             if (dto.getNewPassword1().length() > 5) {
-                String password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
-                if (!employee.getPassword().equals(password)){
+                password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
+                if (!employee.getPassword().equals(DigestUtils.md5DigestAsHex(dto.getThisPassword().getBytes()))){
                     return R.error("旧密码错误,修改失败");
                 }
                 employee.setPassword(password);
