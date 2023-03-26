@@ -3,6 +3,7 @@ package com.zyp.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyp.common.R;
+import com.zyp.dto.UpdatePasswordDto;
 import com.zyp.entity.Employee;
 import com.zyp.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
@@ -79,17 +80,38 @@ public class EmployeeController {
     @PostMapping()
     public R<String> save(HttpServletRequest request, @RequestBody Employee employee){
 
-//        employee.setCreateTime(LocalDateTime.now());
-//        employee.setUpdateTime(LocalDateTime.now());
-
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-
-//        Long uid = (Long) request.getSession().getAttribute("employee");
-//        employee.setCreateUser(uid);
-//        employee.setUpdateUser(uid);
 
         employeeService.save(employee);
         return R.success("添加成功");
+    }
+
+    /**
+     * 新增员工
+     * @param dto
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public R<String> updatePassword(HttpServletRequest request, @RequestBody UpdatePasswordDto dto){
+        Employee employee = employeeService.getById(Long.valueOf(dto.getId()));
+        if (employee == null){
+            return R.error("用户名不存在，修改失败");
+        }
+        if (dto.getNewPassword1() != null && dto.getNewPassword1().equals(dto.getNewPassword2())){
+            if (dto.getNewPassword1().length() > 5) {
+                String password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
+                if (!employee.getPassword().equals(password)){
+                    return R.error("旧密码错误,修改失败");
+                }
+                employee.setPassword(password);
+                employeeService.save(employee);
+                return R.error("修改成功");
+            }else {
+                return R.error("密码至少6位");
+            }
+        }else {
+            return R.error("两次输入的新密码不相同");
+        }
     }
 
     /**
