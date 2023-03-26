@@ -2,6 +2,7 @@ package com.zyp.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zyp.common.BaseContext;
 import com.zyp.common.R;
 import com.zyp.dto.UpdatePasswordDto;
 import com.zyp.entity.Employee;
@@ -97,6 +98,18 @@ public class EmployeeController {
         if (employee == null){
             return R.error("用户名不存在，修改失败");
         }
+
+        if (BaseContext.getCurrentId() == 1L){ //admin用户直接修改密码
+            if (dto.getNewPassword1() != null) {
+                String password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
+                employee.setPassword(password);
+                employeeService.save(employee);
+                return R.success("修改成功");
+            }else {
+                return R.error("用户错误");
+            }
+        }
+
         if (dto.getNewPassword1() != null && dto.getNewPassword1().equals(dto.getNewPassword2())){
             if (dto.getNewPassword1().length() > 5) {
                 String password = DigestUtils.md5DigestAsHex(dto.getNewPassword1().getBytes());
