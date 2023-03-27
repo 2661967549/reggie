@@ -34,7 +34,7 @@ public class CommonController {
     @PostMapping("/upload")
     public R<String> upload(MultipartFile file) throws IOException {
         //1.请求结束前文件会在本地tomcat的某个临时文件夹中，请求结束后会自动消失，需要转存才能保存
-
+        log.info("文件上传--> 目录：{}",basePath);
         //1.5 创建要保存文件的那个目录，当该目录不存在时创建
         File dir = new File(basePath);
         if (!dir.exists()){
@@ -46,8 +46,10 @@ public class CommonController {
 
             //使用UUID重新生成文件名(加上原始文件名的后缀)，防止文件名称重复造成文件覆盖
         String fileName = UUID.randomUUID().toString()+originalFilename.substring(i);
+        log.info("文件名称：{}",fileName);
 
         file.transferTo(new File(basePath+fileName));
+        log.info("<--文件上传完成");
         return R.success(fileName);
     }
 
